@@ -4,13 +4,15 @@ import { useTheme } from "../contexts/ThemeContext";
 import ScoreResult from "./Rounds/ScoreResult";
 import TeamInput from "./TeamInput";
 
+const cleanScore = {
+  Them: "",
+  Us: ""
+}
+
 const Home = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors)
-  const [score, setScore] = useState({
-    Them: "",
-    Us: ""
-  })
+  const [score, setScore] = useState(cleanScore)
   const [scores, setScores] = useState([])
   const onScoreChange = (to, value) => {
     setScore({...score, [to]: value})
@@ -22,10 +24,11 @@ const Home = () => {
       Us: score.Us != "" ? +score.Us : 0
     }
     setScores([...scores, round])
-    setScore({
-      Them: "",
-      Us: ""
-    })
+    setScore(cleanScore)
+  }
+  const onNewGame = () => {
+    setScores([])
+    setScore({Them: "", Us: ""})
   }
   return (
     <View style={styles.home}>
@@ -33,7 +36,7 @@ const Home = () => {
         <Text style={styles.changeTeamText}>
           Change teams
         </Text>
-        <TouchableOpacity style={styles.newGameBtn}>
+        <TouchableOpacity onPress={onNewGame} style={styles.newGameBtn}>
           <Text style={styles.newGameText}>New</Text>
         </TouchableOpacity>
       </View>
@@ -54,7 +57,7 @@ export default Home;
 const getStyles = (colors) => {
   return StyleSheet.create({
     home: {
-      paddingTop: 75,
+      paddingTop: 55,
       paddingHorizontal: 40
     },
     basicSettings: {

@@ -20,7 +20,6 @@ export const ThemeProvider = (props) => {
     isDark,
     colors: isDark ? darkColors : lightColors,
     setScheme: (scheme) => {
-      console.log(scheme, scheme === "dark")
       setIsDark(scheme === "dark")
     }
   }
