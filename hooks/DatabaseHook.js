@@ -1,6 +1,6 @@
 //@refresh reset
 import React, { useEffect, useState } from "react"
-import { database } from "../components/database"
+import { database } from "../components/Database"
 
 export default function useDatabase() {
   const [isDBLoadingComplete, setDBLoadingComplete] = useState(false)

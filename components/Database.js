@@ -7,6 +7,7 @@ const getTeams = (setTeamsFunc) => {
   db.transaction(tx => {
     tx.executeSql('Select * from teams', [], 
     (_, {rows: {_array}}) => {
+      console.log(_array)
       setTeamsFunc(_array)
     })
   },
@@ -24,8 +25,8 @@ const insertTeam = (teamName, successFunc) => {
 }
 
 const updateTeam = (teamName, wins, losses) => {
-  db.transaction(x => {
-    tx.executeSql('update teams set wins = ?, losses = ? where name = ?', [wins, losses, teamName])
+  db.transaction(tx => {
+    tx.executeSql('UPDATE teams SET wins = ?, losses = ? where name = ?', [wins, losses, teamName])
   },
   (t, error) => { console.log("db error insertTeam"); console.log(error);},
   (t, success) => { console.log("updated team") }
@@ -62,9 +63,9 @@ const setupDatabaseAsync = async () => {
 const setupTeamsAsync = async () => {
   return new Promise((resolve, _reject) => {
     db.transaction( tx => {
-        tx.executeSql( 'insert into teams (id, name) values (?,?), (?,?)', [1, "Us", 2, "Them"] );
+        tx.executeSql( 'insert into teams (id, name, wins, losses) values (?,?,?,?), (?,?,?,?)', [1,"Us",0,0, 2,"Them",0,0] );
       },
-      (t, error) => { console.log("db error insertUser"); console.log(error); resolve() },
+      (t, error) => { console.log("db error insertTeams"); console.log(error); resolve() },
       (t, success) => { resolve(success)}
     )
   })

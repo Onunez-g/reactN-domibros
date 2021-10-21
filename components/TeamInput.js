@@ -30,7 +30,7 @@ const TeamInput = (props) => {
   });
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.teamText}>{props.name}</Text>
+      <Text style={styles.teamText}>{props.team || props.name}</Text>
       <TextInput
         style={styles.teamInput}
         placeholder="0"

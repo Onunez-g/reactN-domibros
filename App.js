@@ -13,12 +13,16 @@ export default function App() {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const isDBLoadingComplete = useDatabase();
+  const teams = [
+    {id: 1,name: "Us", wins: 0, losses: 0},
+    {id: 2,name: "Them", wins: 0, losses: 0}
+  ]
   if (isDBLoadingComplete) {
     SplashScreen.hideAsync();
     return (
       <AppearanceProvider>
         <ThemeProvider>
-          <TeamsProvider>
+          <TeamsProvider teams={teams}>
             <View style={styles.container}>
               <Home />
               <NavBar />

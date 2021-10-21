@@ -9,10 +9,10 @@ const ScoreResult = ({scores}) => {
     <View style={{marginTop: 20}}>
       <View style={styles.totalRow}>
         <Text style={styles.totalText}>Total</Text>
-        <Text style={styles.totalText}>{scores.reduce((acc, x) => acc + x.Them, 0)}</Text>
-        <Text style={styles.totalText}>{scores.reduce((acc, x) => acc + x.Us, 0)}</Text>
+        <Text style={styles.totalNumber}>{scores.reduce((acc, x) => acc + x.Them, 0)}</Text>
+        <Text style={styles.totalNumber}>{scores.reduce((acc, x) => acc + x.Us, 0)}</Text>
       </View>
-      <ScrollView>
+      <ScrollView style={styles.roundsBoard}>
         {scores.map((x, i) => (
           <View key={i} style={styles.roundRow}>
             <Text style={styles.roundText}>R{i+1}</Text>
@@ -37,6 +37,7 @@ const getStyles = (colors) => {
       alignItems: "center"
     },
     totalText: {
+      width: 50,
       fontSize: 18,
       fontWeight: "bold",
       color: colors.lightTextColor
@@ -52,19 +53,30 @@ const getStyles = (colors) => {
       paddingVertical: 10
     },
     roundText: {
+      width: 50,
       textAlign: "center",
       fontWeight: "bold",
       color: colors.darkTextColor
     },
+    totalNumber: {
+      width: 50,
+      fontSize: 18,
+      fontWeight: "bold",
+      textAlign: "right",
+      color: colors.lightTextColor
+    },
     roundUs: {
-      width: 20,
+      width: 50,
       textAlign: "right",
       color: colors.primaryColor
     },
     roundThem: {
-      width: 20,
+      width: 50,
       textAlign: "right",
       color: colors.secondaryColor
+    },
+    roundsBoard: {
+      height: "52%"
     }
   })
 }
