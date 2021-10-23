@@ -37,7 +37,7 @@ const dropDatabaseTablesAsync = async () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        'drop table teams',
+        'drop table if exists teams',
         [],
         (_, result) => { resolve(result) },
         (_, error) => { console.log("error dropping teams table"); reject(error)
