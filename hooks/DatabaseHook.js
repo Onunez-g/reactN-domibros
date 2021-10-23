@@ -8,7 +8,7 @@ export default function useDatabase() {
   useEffect(() => {
     async function loadDataAsync() {
       try {
-        await database.dropDatabaseTablesAsync()
+        // await database.dropDatabaseTablesAsync()
         await database.setupDatabaseAsync()
         await database.setupTeamsAsync()
 

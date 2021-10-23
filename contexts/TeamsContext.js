@@ -38,7 +38,8 @@ export const TeamsProvider = (props) => {
     selectedTeam2,
     selectTeams,
     addNewTeam,
-    updateTeam
+    updateTeam,
+    refreshTeams
   }
   return (
     <TeamsContext.Provider value={teamsContext}>

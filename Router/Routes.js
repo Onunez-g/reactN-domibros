@@ -20,6 +20,7 @@ const MainRoutes = () => {
           tabBarHideOnKeyboard: true,
           headerShown: false,
           tabBarActiveTintColor: colors.primaryColor,
+          tabBarActiveBackgroundColor: `${colors.primaryColor}20`,
           tabBarStyle: {
             backgroundColor: colors.backgroundColor,
             elevation: 0,

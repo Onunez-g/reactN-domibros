@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { useTeams } from "../contexts/TeamsContext";
 import { useTheme } from "../contexts/ThemeContext";
-import ScoreResult from "./Rounds/ScoreResult";
+import ScoreResult from "./Lists/ScoreResult";
 import TeamInput from "./TeamInput";
+import { database } from "./Database";
 
 const cleanScore = {
   Them: "",
@@ -20,7 +21,7 @@ const cleanScore = {
 
 const Home = () => {
   const { colors } = useTheme();
-  const { selectedTeam1, selectedTeam2, updateTeam } = useTeams();
+  const { selectedTeam1, selectedTeam2, updateTeam, refreshTeams } = useTeams();
   const styles = getStyles(colors);
   const [score, setScore] = useState(cleanScore);
   const [scores, setScores] = useState([]);
@@ -31,18 +32,24 @@ const Home = () => {
   useEffect(() => {
     checkWinner()
   }, [scores])
+  const refreshMatch = () => {
+    database.getMatch(setScores)
+  }
   const onAddRound = () => {
     Keyboard.dismiss();
     let round = {
       Them: score.Them != "" ? +score.Them : 0,
       Us: score.Us != "" ? +score.Us : 0,
     };
-    setScores([...scores, round]);
+    database.insertRound(round.Them, round.Us, refreshMatch)
     setScore(cleanScore);
   };
+  const onRemoveRound = (id) => {
+    database.removeRound(id, refreshMatch)
+  }
   const checkWinner = () => {
-    let themTotalScore = scores.reduce((acc, x) => acc + x.Them, 0);
-    let usTotalScore = scores.reduce((acc, x) => acc + x.Us, 0);
+    let themTotalScore = scores.reduce((acc, x) => acc + x.them, 0);
+    let usTotalScore = scores.reduce((acc, x) => acc + x.us, 0);
     if (themTotalScore >= 200 || usTotalScore >= 200) {
       let winner = "";
       if (themTotalScore >= 200) {
@@ -73,7 +80,8 @@ const Home = () => {
     }
   }
   const onNewGame = () => {
-    setScores([]);
+    database.cleanMatch(setScores)
+    refreshTeams()
     setScore({ Them: "", Us: "" });
   };
   return (
@@ -103,7 +111,7 @@ const Home = () => {
       <TouchableOpacity onPress={onAddRound} style={styles.addBtn}>
         <Text style={styles.addTxt}>Add round</Text>
       </TouchableOpacity>
-      <ScoreResult scores={scores} />
+      <ScoreResult scores={scores} onRemoveRound={onRemoveRound}/>
     </View>
   );
 };
